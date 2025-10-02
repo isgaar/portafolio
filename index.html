@@ -1,206 +1,312 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Portafolio - Ismael Gaspar</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    /*============================
+      Paleta y theming (seria)
+    ============================*/
+    :root {
+      --bg: #f6f7f9;
+      --surface: #ffffff;
+      --text: #1b2430;
+      --muted: #5b6572;
+      --line: #e6e8ec;
+      --accent: #2b5c9a;   /* azul sobrio */
+      --accent-2: #1e3e66; /* más profundo */
+      --shadow: 0 6px 18px rgba(0,0,0,.08);
+      --shadow-hover: 0 12px 28px rgba(0,0,0,.14);
+      --radius: 12px;
+      --space: 24px;
+      --space-sm: 12px;
+      --space-lg: 40px;
+      --transition: .2s ease;
     }
+    html[data-theme="dark"] {
+      --bg: #0f141a;
+      --surface: #121a23;
+      --text: #e8edf3;
+      --muted: #aab4bf;
+      --line: #1c2630;
+      --accent: #7aa2d6;
+      --accent-2: #99b7e6;
+      --shadow: 0 6px 18px rgba(0,0,0,.35);
+      --shadow-hover: 0 12px 28px rgba(0,0,0,.45);
+    }
+
+    /*========
+      Reset
+    =========*/
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
     body {
-      font-family: 'Roboto', Arial, sans-serif;
-      background: #f7f8fa;
-      color: #2c3e50;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      background: var(--bg);
+      color: var(--text);
       line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
-    /* Header */
+    /*========
+      Layout
+    =========*/
+    .container { max-width: 1120px; margin: 0 auto; padding: var(--space-lg) var(--space); }
     header {
-      background: #1c1f26;
-      color: #fff;
-      padding: 3rem 1rem;
-      text-align: center;
-      border-bottom: 4px solid #0366d6;
+      background: linear-gradient(0deg, var(--surface), var(--surface));
+      border-bottom: 1px solid var(--line);
     }
-    header h1 {
-      font-size: 2.5rem;
-      font-weight: 700;
+    .hero {
+      display: grid; gap: var(--space);
+      grid-template-columns: 1fr auto;
+      align-items: center;
     }
-    header p {
-      font-size: 1.2rem;
-      opacity: 0.85;
-      margin-top: 0.5rem;
+    .hero h1 { font-size: clamp(1.8rem, 2.5vw, 2.4rem); font-weight: 700; }
+    .hero p { color: var(--muted); }
+
+    .theme-toggle {
+      display: inline-flex; align-items: center; gap: .6rem;
+      background: var(--surface); border: 1px solid var(--line);
+      padding: .6rem .9rem; border-radius: 999px; cursor: pointer;
+      transition: background var(--transition), border-color var(--transition), transform var(--transition);
+      box-shadow: var(--shadow);
+      user-select: none;
+    }
+    .theme-toggle:hover { transform: translateY(-1px); box-shadow: var(--shadow-hover); }
+    .theme-toggle span { font-size: .95rem; color: var(--muted); }
+    .badge {
+      display: inline-block; font-size: .85rem; color: var(--accent-2);
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+      padding: .25rem .6rem; border-radius: 6px; border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+      margin-left: .5rem;
     }
 
-    /* Secciones */
-    section {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 3rem 2rem;
-    }
+    /*==========================
+      Sección Proyectos (arriba)
+    ==========================*/
+    section { padding: var(--space-lg) 0; }
     section h2 {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-      color: #0366d6;
+      font-size: clamp(1.2rem, 2vw, 1.6rem);
+      color: var(--accent-2);
+      margin-bottom: var(--space);
+      letter-spacing: .2px;
     }
-    section p, li {
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
-    }
-
-    /* Listas */
-    ul {
-      margin-left: 1.2rem;
-    }
-
-    /* Grid proyectos */
     .projects {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
+      gap: var(--space);
     }
-
     .card {
-      background: #fff;
-      border-radius: 10px;
-      padding: 1.5rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: var(--space);
+      box-shadow: var(--shadow);
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
     }
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
-    .card h3 {
-      margin-bottom: 0.5rem;
-      font-size: 1.3rem;
-    }
-    .card p {
-      font-size: 0.95rem;
-      color: #555;
+    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); border-color: color-mix(in srgb, var(--accent) 22%, var(--line)); }
+    .card h3 { font-size: 1.1rem; margin-bottom: .35rem; }
+    .card p  { font-size: .96rem; color: var(--muted); }
+    .meta {
+      margin-top: .75rem; font-size: .86rem; color: var(--muted);
+      border-top: 1px dashed var(--line); padding-top: .6rem;
     }
 
-    /* Enlaces */
-    a {
-      color: #0366d6;
-      text-decoration: none;
-      font-weight: 500;
+    /*======================
+      Sobre mí + info CV
+    ======================*/
+    .about-grid {
+      display: grid; gap: var(--space);
+      grid-template-columns: 1.2fr .8fr;
     }
-    a:hover {
-      text-decoration: underline;
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: var(--space);
+      box-shadow: var(--shadow);
     }
+    .panel h3 { font-size: 1.05rem; margin-bottom: .6rem; color: var(--accent-2); }
+    .list { margin-top: .4rem; }
+    .list li { margin-left: 1.2rem; margin-bottom: .4rem; color: var(--muted); }
+    .subtitle { color: var(--muted); margin-bottom: .5rem; }
+    .kv { margin-bottom: .35rem; color: var(--muted); }
+    .kv strong { color: var(--text); }
 
-    /* Footer */
+    /*==============
+      Footer
+    ==============*/
     footer {
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      padding: var(--space-lg) var(--space);
       text-align: center;
-      padding: 1.5rem;
-      background: #1c1f26;
-      color: #aaa;
-      font-size: 0.9rem;
-      margin-top: 2rem;
+    }
+
+    /* Accesibilidad y detalles */
+    @media (prefers-reduced-motion: reduce) {
+      .card, .theme-toggle { transition: none; }
     }
   </style>
 </head>
 <body>
+  <!-- ============= HEADER ============== -->
   <header>
-    <h1>Portafolio Profesional</h1>
-    <p>Ismael Gaspar - Desarrollador de Software</p>
+    <div class="container hero">
+      <div>
+        <h1>Portafolio Profesional <span class="badge">Ismael Gaspar</span></h1>
+        <p>Desarrollador de Software · TI & Multiplataforma · Enfoque en seguridad, IA y metodologías ágiles</p>
+      </div>
+      <button class="theme-toggle" id="themeBtn" aria-pressed="false" aria-label="Cambiar tema">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 3v2M12 19v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/>
+        </svg>
+        <span id="themeLabel">Claro</span>
+      </button>
+    </div>
   </header>
 
-  <!-- Perfil -->
-  <section>
-    <h2>Perfil Profesional</h2>
-    <p>
-      Desarrollador de proyectos especializado en <strong>Tecnologías de la Información y Software Multiplataforma</strong>, 
-      con formación sólida y experiencia práctica en desarrollo de aplicaciones web, móviles y de escritorio. 
-      Apasionado por la innovación tecnológica y la aplicación de <strong>metodologías ágiles (Scrum, Design Thinking)</strong>, 
-      con enfoque en la <strong>seguridad de la información, IA y soluciones optimizadas</strong>.
-      Destaco por mi capacidad <strong>autodidacta, pensamiento crítico y lógica aplicada a inteligencia artificial</strong>, 
-      cualidades que me permiten contribuir con valor a proyectos tecnológicos de alto impacto.
-    </p>
-  </section>
+  <main class="container">
+    <!-- ========== PROYECTOS (arriba) ========== -->
+    <section id="proyectos">
+      <h2>Proyectos Destacados</h2>
+      <div class="projects">
+        <div class="card">
+          <h3><a href="https://github.com/isgaar/PlataformaAV" target="_blank" rel="noopener">PlataformaAV</a></h3>
+          <p>Plataforma educativa interactiva para aprendizaje virtual con módulos personalizables, enfoque en accesibilidad y contenidos dinámicos.</p>
+          <div class="meta">Stack sugerido: PHP/JS · Enfoque: EdTech</div>
+        </div>
+        <div class="card">
+          <h3><a href="https://github.com/isgaar/visormolecular" target="_blank" rel="noopener">VisorMolecular</a></h3>
+          <p>Visualización 3D de estructuras moleculares para docencia y análisis. Facilita la comprensión de geometrías y enlaces.</p>
+          <div class="meta">Stack sugerido: WebGL/Three.js · Enfoque: Ciencia</div>
+        </div>
+        <div class="card">
+          <h3><a href="https://github.com/isgaar/AtomosVirtuales" target="_blank" rel="noopener">ÁtomosVirtuales</a></h3>
+          <p>Simulación interactiva de átomos y enlaces basada en interfaces inmersivas para impulsar el aprendizaje de química molecular.</p>
+          <div class="meta">Tecnología: Leap Motion · Premio: Exposiencias 2024</div>
+        </div>
+        <div class="card">
+          <h3><a href="https://github.com/isgaar/dopamineai" target="_blank" rel="noopener">DopamineAI</a></h3>
+          <p>Proyecto de IA inspirado en sistemas de recompensa; experimentación con agentes que aprenden por incentivos y retroalimentación.</p>
+          <div class="meta">Área: RL/Agentes · Investigación aplicada</div>
+        </div>
+        <div class="card">
+          <h3><a href="https://github.com/isgaar/SimuladorMolecular" target="_blank" rel="noopener">SimuladorMolecular</a></h3>
+          <p>Herramienta de simulación de dinámica molecular para explorar procesos físico-químicos a nivel computacional.</p>
+          <div class="meta">Área: Simulación · Ciencia de materiales</div>
+        </div>
+        <div class="card">
+          <h3><a href="https://github.com/isgaar/frangyControl" target="_blank" rel="noopener">FrangyControl</a></h3>
+          <p>Aplicación de gestión y monitoreo para optimizar procesos de un entorno de servicios automotrices.</p>
+          <div class="meta">Stack: PHP/SQL · Caso real</div>
+        </div>
+      </div>
+    </section>
 
-  <!-- Habilidades -->
-  <section>
-    <h2>Habilidades Técnicas</h2>
-    <ul>
-      <li><strong>Lenguajes de Programación:</strong> Java, PHP, C#, Python</li>
-      <li><strong>Bases de Datos:</strong> PostgreSQL, MySQL, SQL</li>
-      <li><strong>Desarrollo Web y Aplicaciones:</strong> Backend y frontend en PHP, aplicaciones móviles Android</li>
-      <li><strong>Metodologías Ágiles:</strong> Scrum, Design Thinking</li>
-      <li><strong>Sistemas Operativos y Redes:</strong> Instalación, configuración y administración (Linux Ubuntu, Windows)</li>
-      <li><strong>Seguridad y Privacidad:</strong> Implementación de políticas de resguardo de datos sensibles</li>
-      <li><strong>Otras Competencias:</strong> Control en UI, paquetería Office, aprendizaje continuo en IA y redes neuronales</li>
-    </ul>
-  </section>
+    <!-- ========== SOBRE MÍ (info visible, sin datos sensibles) ========== -->
+    <section id="sobre-mi">
+      <h2>Sobre mí</h2>
+      <div class="about-grid">
+        <article class="panel">
+          <h3>Perfil Profesional</h3>
+          <p class="subtitle">
+            Desarrollador de proyectos en <strong>Tecnologías de la Información y Software Multiplataforma</strong> con experiencia en aplicaciones web, móviles y de escritorio. 
+            Enfoque en <strong>seguridad de la información</strong>, <strong>IA</strong> y <strong>metodologías ágiles (Scrum, Design Thinking)</strong>. 
+            Autodidacta, analítico y orientado a resultados.
+          </p>
 
-  <!-- Experiencia -->
-  <section>
-    <h2>Experiencia Profesional</h2>
-    <p><strong>Desarrollador de Proyecto – Refaccionaria Frangy</strong><br>
-    Orizaba, Veracruz | Mayo 2023 – Agosto 2023</p>
-    <ul>
-      <li>Desarrollo de aplicación web con operaciones CRUD para gestión de pedidos.</li>
-      <li>Implementación en <strong>PHP</strong> para procesos de ventas y servicios automotrices.</li>
-      <li>Apoyo en atención al cliente, cotizaciones y punto de venta.</li>
-    </ul>
-  </section>
+          <h3>Habilidades Técnicas</h3>
+          <ul class="list">
+            <li><strong>Lenguajes:</strong> Java, PHP, C#, Python</li>
+            <li><strong>Bases de datos:</strong> PostgreSQL, MySQL, SQL</li>
+            <li><strong>Desarrollo:</strong> Backend/Frontend en PHP, apps Android</li>
+            <li><strong>Metodologías:</strong> Scrum, Design Thinking</li>
+            <li><strong>SO y redes:</strong> Linux Ubuntu, Windows; instalación y administración</li>
+            <li><strong>Seguridad y privacidad:</strong> Resguardo de datos sensibles</li>
+            <li><strong>Otras:</strong> Control en UI, Office, aprendizaje continuo en IA y redes neuronales</li>
+          </ul>
+        </article>
 
-  <!-- Cursos -->
-  <section>
-    <h2>Cursos y Formación Complementaria</h2>
-    <ul>
-      <li><strong>SQL Bases – SoloLearn</strong> (2022): Fundamentos de bases de datos relacionales y consultas.</li>
-      <li><strong>Redes Neuronales e Inteligencia Artificial</strong> (2025 – En curso): Modelos de aprendizaje profundo y lógica aplicada a IA.</li>
-    </ul>
-  </section>
+        <aside class="panel">
+          <h3>Experiencia</h3>
+          <p class="kv"><strong>Desarrollador de Proyecto – Refaccionaria Frangy</strong></p>
+          <p class="kv">Orizaba, Veracruz · <em>Mayo 2023 – Agosto 2023</em></p>
+          <ul class="list">
+            <li>App web CRUD para gestión de pedidos.</li>
+            <li>Implementación en <strong>PHP</strong> para ventas y servicios automotrices.</li>
+            <li>Apoyo en atención al cliente, cotizaciones y punto de venta.</li>
+          </ul>
 
-  <!-- Idiomas -->
-  <section>
-    <h2>Idiomas</h2>
-    <ul>
-      <li>Español: Nativo</li>
-      <li>Inglés: Nivel B1</li>
-    </ul>
-  </section>
+          <h3 style="margin-top:1rem;">Formación Complementaria</h3>
+          <ul class="list">
+            <li><strong>SQL Bases – SoloLearn (2022):</strong> Fundamentos de bases de datos y consultas.</li>
+            <li><strong>Redes Neuronales e IA (2025 – En curso):</strong> Modelos de aprendizaje profundo y lógica aplicada a IA.</li>
+          </ul>
 
-  <!-- Proyectos -->
-  <section>
-    <h2>Proyectos Destacados</h2>
-    <div class="projects">
-      <div class="card">
-        <h3><a href="https://github.com/isgaar/PlataformaAV">PlataformaAV</a></h3>
-        <p>Plataforma educativa interactiva diseñada para el aprendizaje virtual, con módulos dinámicos y contenidos personalizables para estudiantes.</p>
+          <h3 style="margin-top:1rem;">Idiomas</h3>
+          <ul class="list">
+            <li>Español: Nativo</li>
+            <li>Inglés: B1</li>
+          </ul>
+        </aside>
       </div>
-      <div class="card">
-        <h3><a href="https://github.com/isgaar/visormolecular">VisorMolecular</a></h3>
-        <p>Aplicación que permite la visualización en 3D de estructuras moleculares, facilitando la enseñanza y el análisis en entornos académicos.</p>
-      </div>
-      <div class="card">
-        <h3><a href="https://github.com/isgaar/AtomosVirtuales">ÁtomosVirtuales</a></h3>
-        <p>Simulación interactiva de átomos y enlaces químicos basada en tecnologías inmersivas para fomentar el aprendizaje de química molecular.</p>
-      </div>
-      <div class="card">
-        <h3><a href="https://github.com/isgaar/dopamineai">DopamineAI</a></h3>
-        <p>Proyecto de inteligencia artificial inspirado en el sistema de recompensas de la dopamina, orientado al aprendizaje autónomo de agentes inteligentes.</p>
-      </div>
-      <div class="card">
-        <h3><a href="https://github.com/isgaar/SimuladorMolecular">SimuladorMolecular</a></h3>
-        <p>Herramienta para la simulación de dinámica molecular, enfocada en procesos químicos y físicos a nivel computacional.</p>
-      </div>
-      <div class="card">
-        <h3><a href="https://github.com/isgaar/frangyControl">FrangyControl</a></h3>
-        <p>Aplicación de gestión y monitoreo para optimizar procesos en un entorno de servicios automotrices, desarrollada en PHP.</p>
-      </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <footer>
-    © 2025 Ismael Gaspar - Portafolio Profesional
+    © 2025 Ismael Gaspar — Portafolio Profesional
   </footer>
+
+  <script>
+    // ===========================
+    // Toggle de tema claro/oscuro
+    // ===========================
+    (function() {
+      const root = document.documentElement;
+      const btn = document.getElementById('themeBtn');
+      const label = document.getElementById('themeLabel');
+
+      // 1) Preferencia guardada o del sistema
+      const stored = localStorage.getItem('theme');
+      if (stored) {
+        root.setAttribute('data-theme', stored);
+      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        root.setAttribute('data-theme', 'dark');
+      }
+
+      // 2) Texto del chip
+      function syncLabel() {
+        const mode = root.getAttribute('data-theme');
+        label.textContent = mode === 'dark' ? 'Oscuro' : 'Claro';
+        btn.setAttribute('aria-pressed', mode === 'dark');
+      }
+      syncLabel();
+
+      // 3) Click para alternar
+      btn.addEventListener('click', () => {
+        const mode = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', mode);
+        localStorage.setItem('theme', mode);
+        syncLabel();
+      });
+
+      // 4) Si el sistema cambia, opcionalmente seguimos
+      if (window.matchMedia) {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+          const hasCustom = !!localStorage.getItem('theme');
+          if (!hasCustom) {
+            root.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+            syncLabel();
+          }
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
